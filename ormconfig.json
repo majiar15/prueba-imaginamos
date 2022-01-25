@@ -1,0 +1,16 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "admin",
+    "password": "root",
+    "database": "prueba_tecnica",
+    "entities": ["src/**/*.entity.ts"],
+    "synchronize": false,
+    "migrationsTableName": "migrations",
+    "migrationsRun": true,
+    "migrations": ["src/database/migrations/*.ts"],
+    "cli": {
+      "migrationsDir": "src/database/migrations"
+    }
+}
