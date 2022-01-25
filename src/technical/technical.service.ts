@@ -1,26 +1,51 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTechnicalDto } from './dto/create-technical.dto';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { Technical } from './entities/technical.entity';
+import { TechnicalDto } from './dto/create-technical.dto';
 import { UpdateTechnicalDto } from './dto/update-technical.dto';
 
-@Injectable()
+@Injectable() 
 export class TechnicalService {
-  create(createTechnicalDto: CreateTechnicalDto) {
-    return 'This action adds a new technical';
+  constructor(
+    @InjectRepository(Technical) private TechnicalRepo: Repository<Technical>,
+  ) {}
+  async findAll() {
+    const technical = await this.TechnicalRepo.find();
+    console.log(technical);
+    if(technical.length === 0) {
+      throw new NotFoundException("no hay tecnicos") ;
+    }
+    return technical;
   }
 
-  findAll() {
-    return `This action returns all technical`;
+  async findOne(id: number) {
+    const technical = await this.TechnicalRepo.findOne(id);
+    if(!technical){
+      throw new NotFoundException("Tecnico no encontrado") ;
+    }
+    return technical;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} technical`;
+  create(body: any) {
+    const newUser = new TechnicalDto();
+    newUser.name = body.name;
+    newUser.surname = body.surname;
+    return this.TechnicalRepo.save(newUser);
   }
 
-  update(id: number, updateTechnicalDto: UpdateTechnicalDto) {
-    return `This action updates a #${id} technical`;
+  async update(id: number, body: UpdateTechnicalDto) {
+    const User = await this.TechnicalRepo.findOne(id);
+    this.TechnicalRepo.merge(User, body);
+    return this.TechnicalRepo.save(User);
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} technical`;
+  async remove(id: number) {
+    const query = await this.TechnicalRepo.delete(id);
+    if(query.affected != 0){
+      return "tecnico eliminado correctamente";
+    }else{
+      throw new BadRequestException("el Tecnico ya esta eliminado") ;
+    }
   }
 }

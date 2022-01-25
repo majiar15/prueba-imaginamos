@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from '@user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TechnicalModule } from './technical/technical.module';
 ;
 
 
@@ -19,6 +20,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         synchronize: false,
         retryDelay: 3000,
         retryAttempts: 10
-      }),UserModule],
+      }),
+      UserModule,
+      TechnicalModule],
 })
 export class AppModule {}

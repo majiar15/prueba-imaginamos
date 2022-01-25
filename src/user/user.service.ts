@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -6,18 +6,27 @@ import { UserDTO } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Injectable()
+@Injectable() 
 export class UserService {
 
   constructor(
     @InjectRepository(User) private UsersRepo: Repository<User>,
   ) {}
-  findAll() {
-    return this.UsersRepo.find();
+  async findAll() {
+    const user = await this.UsersRepo.find();
+    console.log(user);
+    if(user.length === 0) {
+      throw new NotFoundException("no hay usuarios registrados!") ;
+    }
+    return user;
   }
 
-  findOne(id: number) {
-    return this.UsersRepo.findOne(id);
+  async findOne(id: number) {
+    const user = await this.UsersRepo.findOne(id);
+    if(!user){
+      throw new NotFoundException("Usuario no encontrado") ;
+    }
+    return user;
   }
 
   create(body: any) {
@@ -36,7 +45,11 @@ export class UserService {
     return this.UsersRepo.save(User);
   }
   async remove(id: number) {
-    await this.UsersRepo.delete(id);
-    return true;
+    const query = await this.UsersRepo.delete(id);
+    if(query.affected != 0){
+      return "Usuario eliminado correctamente";
+    }else{
+      throw new BadRequestException("El usuario ya esta eliminado") ;
+    }
   }
 }
