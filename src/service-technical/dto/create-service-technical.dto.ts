@@ -14,6 +14,7 @@ export class ServiceTechnicalDto {
 
     @ApiProperty()
     @IsNumber()
+    @IsOptional()
     technical: Technical;
 
     @ApiProperty()

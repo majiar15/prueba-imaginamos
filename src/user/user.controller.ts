@@ -20,36 +20,65 @@ export class UserController {
   @ApiResponse({ status: 200, description: "retorna todos los usuarios", type: UserDTO})
   @Get()
   async findAll() {
-    return await this.userService.findAll();
+    const users =  await this.userService.findAll();
+    return {
+      message: "Usuarios encontrados", 
+      data: users
+    }
   }
 
   @ApiResponse({ status: 200, description: "retorna un usuario", type: UserDTO})
   @Get(':id')
   async findOne(@Param('id',ParseIntPipe) id: number) {
-    return await this.userService.findOne(id);
+    const user =  await this.userService.findOne(id);
+    return {
+      message: "Usuario encontrado", 
+      data: user
+    }
   }
 
   @ApiResponse({ status: 200, description: "crea un usuario nuevo", type: UserDTO})
   @Post()
   async create(@Body() UserDTO: UserDTO) {
-    return await this.userService.create(UserDTO);
+      
+    const user = await this.userService.create(UserDTO);
+    return {
+      message: "Usuario Creado correctamente", 
+      data: user
+    }
   }
 
   @ApiResponse({ status: 200, description: "Modifica un usuario", type: UserDTO})
   @Patch(':id')
   async update(@Param('id',ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.update(id, updateUserDto);
+    const user = await this.userService.update(id, updateUserDto);
+    return {
+      message: "Usuario modificado correctamente", 
+      data: user
+    }
   }
 
   @ApiResponse({ status: 200, description: "Elimina un usuario"})
   @Delete(':id')
   async remove(@Param('id',ParseIntPipe) id: number) {
-    return await this.userService.remove(id);
+    const user = await this.userService.remove(id);
+    return {
+      message: "Usuario Eliminado", 
+      data: user
+    }
   }
 
   @ApiResponse({ status: 200, description: "crea un ticket de servicio tecnico", type: ServiceTechnicalDto})
   @Post('/ticket')
   async createTicket(@Body() serviceTechnicalDto: ServiceTechnicalDto) {
-    return await this.ServiceTechnical.create(serviceTechnicalDto);
+    const ticket = await this.ServiceTechnical.create(serviceTechnicalDto)
+    return {
+      message: "ticket de servicio generado correctamente",
+      data: {
+        token: ticket.id,
+        tecnico: ticket.technical.name + ' ' + ticket.technical.surname,
+        fecha: ticket.start_date
+      }
+    };
   }
 }

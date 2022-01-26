@@ -9,12 +9,16 @@ export class ServiceTechnical {
     @PrimaryGeneratedColumn()
     readonly id: number;
 
-    @ManyToOne(() => User, user => user)
+    @ManyToOne(() => User, user => user,{
+        onDelete: "CASCADE"
+    })
     @JoinColumn({name: 'user'})
     
     user:User;
 
-    @ManyToOne(() => Technical, technical => technical)
+    @ManyToOne(() => Technical, technical => technical,{
+        onDelete: "CASCADE"
+    })
     @JoinColumn({name: 'technical'})
     
     technical:Technical;

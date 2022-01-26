@@ -31,7 +31,9 @@ export class ServiceTechnicalService {
       async create(body: ServiceTechnicalDto) {
         const newTicket = new ServiceTechnicalDto();
         const user = await this.UserRepo.findOne(body.user);
-        const technical = await this.TechnicalRepo.findOne(body.technical);
+        const technical =  await this.TechnicalRepo.createQueryBuilder('technical')
+                                    .orderBy("RANDOM()")
+                                    .getOne();
         if (!user) {
             throw new NotFoundException(`el usuario con id ${body.user} no existe`);
         }
@@ -48,32 +50,32 @@ export class ServiceTechnicalService {
         return this.serviceRepo.save(newTicket);
       }
     
-      async update(id: number, body: UpdateTechnicalDto) {
-        const Ticket = await this.serviceRepo.findOne(id);
-        this.serviceRepo.merge(Ticket, body);
-        return this.serviceRepo.save(Ticket);
-      }
-      async remove(id: number) {
-        const query = await this.serviceRepo.delete(id);
-        if(query.affected != 0){
-          return "Ticket eliminado correctamente";
-        }else{
-          throw new BadRequestException("El Ticket ya esta eliminado") ;
-        }
-      }
+
+
       async findAllTicketsByTechnical(id:number) {
         const technical = await this.TechnicalRepo.findOne(id);
         if (!technical) {
             throw new NotFoundException(`el tecnico con id ${id} no existe`);
         }
-        const tickets = await this.serviceRepo.find({
-            where:{technical: technical},
-            order:{ start_date: 'ASC'}
-        });
+        const tickets = await this.serviceRepo.createQueryBuilder('service_technical')
+                                            .where('service_technical.technical = :tech', {tech: id})
+                                            .andWhere("service_technical.status = 'Pendiente'")
+                                            .leftJoin('service_technical.user', 'user')
+                                            .addSelect([ 'user.name', 'user.surname', 'user.address'])
+                                            .orderBy('start_date', 'ASC')
+                                            .getMany();
         if(tickets.length === 0) {
           throw new NotFoundException("no hay tickets de servicio tecnico!") ;
         }
         return tickets;
+      }
+      async solvedTicket(id: number) {
+        const Ticket = await this.serviceRepo.findOne(id);
+        if(!Ticket){
+            throw new NotFoundException(`no se encontro el ticket de servicio  con id ${id}`);
+        }
+        this.serviceRepo.merge(Ticket, {status: 'Solucionado', ending_date: new Date()});
+        return this.serviceRepo.save(Ticket);
       }
 
 }
