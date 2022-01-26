@@ -4,11 +4,15 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TechnicalService } from './technical.service';
 import { TechnicalDto } from './dto/create-technical.dto';
 import { UpdateTechnicalDto } from './dto/update-technical.dto';
+import { ServiceTechnicalService } from 'src/service-technical/service-technical.service';
 
 @ApiTags('technical')
 @Controller('technical')
 export class TechnicalController {
-  constructor(private readonly TechnicalService: TechnicalService) {}
+  constructor(
+    private readonly TechnicalService: TechnicalService,
+    private readonly ServiceTechnical: ServiceTechnicalService
+    ) {}
 
   @ApiResponse({ status: 200, description: "crea un tecnico nuevo", type: TechnicalDto})
   @Post()
@@ -39,5 +43,9 @@ export class TechnicalController {
   @Delete(':id')
   async remove(@Param('id',ParseIntPipe) id: number) {
     return await this.TechnicalService.remove(id);
+  }
+  @Get('/ticket/:id')
+  async findTicketsByTechnical(@Param('id',ParseIntPipe) id: number ) {
+    return await this.ServiceTechnical.findAllTicketsByTechnical(id);
   }
 }

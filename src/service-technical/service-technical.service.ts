@@ -18,19 +18,7 @@ export class ServiceTechnicalService {
         @InjectRepository(User) private UserRepo: Repository<User>,
         @InjectRepository(Technical) private TechnicalRepo: Repository<Technical>
       ) {}
-      async findAllTicketsByTechnical(id:number,technical: Technical) {
-        // const ticket = await this.serviceRepo.find({id: id, technical: technical } );
-        const tickets = await this.serviceRepo.createQueryBuilder("ticket")
-                                             .where(`ticket.id = true ${id} AND ticket.technical ${technical} AND status ='Pendiente'`)
-                                             .orderBy("photo.start_date", "ASC")
-                                             .getMany();
-
-        console.log(tickets);
-        if(tickets.length === 0) {
-          throw new NotFoundException("no hay tickets de servicio tecnico!") ;
-        }
-        return tickets;
-      }
+     
     
       async findOne(id: number) {
         const ticket = await this.serviceRepo.findOne(id);
@@ -72,6 +60,20 @@ export class ServiceTechnicalService {
         }else{
           throw new BadRequestException("El Ticket ya esta eliminado") ;
         }
+      }
+      async findAllTicketsByTechnical(id:number) {
+        const technical = await this.TechnicalRepo.findOne(id);
+        if (!technical) {
+            throw new NotFoundException(`el tecnico con id ${id} no existe`);
+        }
+        const tickets = await this.serviceRepo.find({
+            where:{technical: technical},
+            order:{ start_date: 'ASC'}
+        });
+        if(tickets.length === 0) {
+          throw new NotFoundException("no hay tickets de servicio tecnico!") ;
+        }
+        return tickets;
       }
 
 }
