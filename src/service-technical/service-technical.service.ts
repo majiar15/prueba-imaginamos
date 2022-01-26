@@ -1,11 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '@user/entities/user.entity';
-import { Technical } from 'src/technical/entities/technical.entity';
 import { Repository } from 'typeorm';
-import { ServiceTechnicalDto } from './dto/create-service-technical.dto';
-import { UpdateTechnicalDto } from './dto/update-service-technical.dto';
 
+import { User } from '@user/entities/user.entity';
+import { Technical } from '@technical/entities/technical.entity';
+import { ServiceTechnicalDto } from './dto/create-service-technical.dto';
 import { ServiceTechnical } from './entities/service-technical.entity';
 
 
@@ -36,9 +35,6 @@ export class ServiceTechnicalService {
                                     .getOne();
         if (!user) {
             throw new NotFoundException(`el usuario con id ${body.user} no existe`);
-        }
-        if (!technical) {
-            throw new NotFoundException(`el tecnico con id ${body.technical} no existe`);
         }
         newTicket.user = user;
         newTicket.technical= technical;

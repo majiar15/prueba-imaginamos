@@ -1,6 +1,7 @@
-import { User } from '@user/entities/user.entity';
-import { Technical } from 'src/technical/entities/technical.entity';
 import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from 'typeorm';
+
+import { User } from '@user/entities/user.entity';
+import { Technical } from '@technical/entities/technical.entity';
 
 
 

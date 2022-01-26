@@ -3,7 +3,7 @@ import { IsString,IsDate, IsNumber, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { User } from "@user/entities/user.entity";
-import { Technical } from "src/technical/entities/technical.entity";
+import { Technical } from "@technical/entities/technical.entity";
 export class ServiceTechnicalDto {
     @ApiProperty()
     readonly id?: number;

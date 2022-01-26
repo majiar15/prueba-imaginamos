@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags,ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 
+import { ServiceTechnicalService } from '@service-technical/service-technical.service';
+import { ServiceTechnicalDto } from '@service-technical/dto/create-service-technical.dto';
 import { UserService } from './user.service';
 import { UserDTO } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ServiceTechnicalService } from 'src/service-technical/service-technical.service';
-import { ServiceTechnicalDto } from 'src/service-technical/dto/create-service-technical.dto';
+
 @ApiTags('user')
 @Controller('user')
 export class UserController {
@@ -15,9 +16,14 @@ export class UserController {
 
     ) {}
 
-  
+    @Get('/hernan')
+    hernan(){
+      return 'hola hernan'
+    }
 
-  @ApiResponse({ status: 200, description: "retorna todos los usuarios", type: UserDTO})
+  @ApiResponse({ status: 200, description: "retorna todos los usuarios"})
+  @ApiBadRequestResponse({ status: 400, description: "faltan parametros o tipo incorrecto"})
+  @ApiNotFoundResponse({ status: 404, description: "no hay usuarios registrados"})
   @Get()
   async findAll() {
     const users =  await this.userService.findAll();
@@ -27,7 +33,8 @@ export class UserController {
     }
   }
 
-  @ApiResponse({ status: 200, description: "retorna un usuario", type: UserDTO})
+  @ApiResponse({ status: 200, description: "retorna un usuario"})
+  @ApiNotFoundResponse({ status: 404, description: "usuario no encontrado"})
   @Get(':id')
   async findOne(@Param('id',ParseIntPipe) id: number) {
     const user =  await this.userService.findOne(id);
@@ -37,7 +44,9 @@ export class UserController {
     }
   }
 
-  @ApiResponse({ status: 200, description: "crea un usuario nuevo", type: UserDTO})
+  @ApiResponse({ status: 200, description: "crea un usuario nuevo"})
+  @ApiBadRequestResponse({ status: 400, description: "faltan parametros o tipo incorrecto"})
+  @ApiNotFoundResponse({ status: 404, description: "usuario no encontrado"})
   @Post()
   async create(@Body() UserDTO: UserDTO) {
       
@@ -48,7 +57,9 @@ export class UserController {
     }
   }
 
-  @ApiResponse({ status: 200, description: "Modifica un usuario", type: UserDTO})
+  @ApiResponse({ status: 200, description: "Modifica un usuario" })
+  @ApiBadRequestResponse({ status: 400, description: "faltan parametros o tipo incorrecto"})
+  @ApiNotFoundResponse({ status: 404, description: "usuario no encontrado" })
   @Patch(':id')
   async update(@Param('id',ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     const user = await this.userService.update(id, updateUserDto);
@@ -59,6 +70,7 @@ export class UserController {
   }
 
   @ApiResponse({ status: 200, description: "Elimina un usuario"})
+  @ApiNotFoundResponse({ status: 404, description: "usuario no encontrado" })
   @Delete(':id')
   async remove(@Param('id',ParseIntPipe) id: number) {
     const user = await this.userService.remove(id);
@@ -68,7 +80,9 @@ export class UserController {
     }
   }
 
-  @ApiResponse({ status: 200, description: "crea un ticket de servicio tecnico", type: ServiceTechnicalDto})
+  @ApiResponse({ status: 200, description: "crea un ticket de servicio tecnico" })
+  @ApiBadRequestResponse({ status: 400, description: "faltan parametros o tipo incorrecto"})
+  @ApiNotFoundResponse({ status: 404, description: "usuario no encontrado" })
   @Post('/ticket')
   async createTicket(@Body() serviceTechnicalDto: ServiceTechnicalDto) {
     const ticket = await this.ServiceTechnical.create(serviceTechnicalDto)
@@ -81,7 +95,10 @@ export class UserController {
       }
     };
   }
-  @ApiResponse({ status: 200, description: "devuelve los datos del servicio tecnico", type: ServiceTechnicalDto})
+
+  @ApiResponse({ status: 200, description: "devuelve los datos del servicio tecnico" })
+  @ApiBadRequestResponse({ status: 400, description: "faltan parametros o tipo incorrecto" })
+  @ApiNotFoundResponse({ status: 404, description: "usuario no encontrado" })
   @Get('/ticket/:id')
   async getTicket(@Param('id',ParseIntPipe) id: number) {
     const ticket = await this.ServiceTechnical.findOne(id)

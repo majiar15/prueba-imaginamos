@@ -1,6 +1,7 @@
 
-import  {config} from 'dotenv';
-config();
+import * as dotenv  from 'dotenv';
+dotenv.config();
+
 
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -23,7 +24,13 @@ async function bootstrap() {
     .build();
     
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document, {
+    explorer: true,
+    swaggerOptions:{
+      filter: true,
+      showRequestDuration: true
+    }
+  });
   await app.listen(3000);
   logger.log(`Server running in ${await app.getUrl()}`);
 }

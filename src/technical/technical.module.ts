@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { ServiceTechnicalModule } from '@service-technical/service-technical.module';
 import { TechnicalService } from './technical.service';
 import { TechnicalController } from './technical.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Technical } from './entities/technical.entity';
-import { ServiceTechnicalModule } from 'src/service-technical/service-technical.module';
 
 @Module({
   imports: [

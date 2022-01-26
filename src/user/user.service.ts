@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { hashSync } from 'bcrypt';
 
 import { UserDTO } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
@@ -33,7 +34,7 @@ export class UserService {
     const newUser = new UserDTO();
     newUser.name = body.name;
     newUser.surname = body.surname;
-    newUser.password = body.password;
+    newUser.password = hashSync(body.password,10);
     newUser.address = body.address;
     // const newUser = this.UsersRepo.create(body);
     return this.UsersRepo.save(newUser);
