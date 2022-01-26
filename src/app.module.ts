@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserModule } from '@user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TechnicalModule } from './technical/technical.module';
+import { ServiceTechnicalModule } from './service-technical/service-technical.module';
 ;
 
 
@@ -22,6 +23,7 @@ import { TechnicalModule } from './technical/technical.module';
         retryAttempts: 10
       }),
       UserModule,
-      TechnicalModule],
+      TechnicalModule,
+      ServiceTechnicalModule],
 })
 export class AppModule {}

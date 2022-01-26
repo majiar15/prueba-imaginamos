@@ -13,7 +13,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger();
   app.useGlobalPipes(new ValidationPipe({
-    whitelist: true
+    whitelist: true,
+    transform: true
   }));
   const options = new DocumentBuilder()
     .setTitle('Prueba tecnica')

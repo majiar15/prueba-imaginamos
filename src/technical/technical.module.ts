@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Technical } from './entities/technical.entity';
 
 @Module({
-  imports: [ 
+  imports: [
     TypeOrmModule.forFeature([Technical])
   ],
   controllers: [TechnicalController],
