@@ -81,4 +81,13 @@ export class UserController {
       }
     };
   }
+  @ApiResponse({ status: 200, description: "devuelve los datos del servicio tecnico", type: ServiceTechnicalDto})
+  @Get('/ticket/:id')
+  async getTicket(@Param('id',ParseIntPipe) id: number) {
+    const ticket = await this.ServiceTechnical.findOne(id)
+    return {
+      message: "Ticket encontrado",
+      data: ticket
+    };
+  }
 }
