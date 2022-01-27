@@ -5,28 +5,28 @@ export class UserDTO {
     @ApiProperty()
     readonly id?: number;
 
+    @ApiProperty()
     @IsString({
         message: 'name debe ser una cadena'
     })
-    @ApiProperty()
     name: string;
     
+    @ApiProperty()
     @IsString({
         message: 'surname debe ser una cadena'
     })
-    @ApiProperty()
     surname: string;
 
+    @ApiProperty()
     @IsString({
         message: 'password debe ser una cadena'
     })
-    @ApiProperty()
     password: string;
 
+    @ApiProperty()
     @IsString({
         message: 'address debe ser una cadena'
     })
-    @ApiProperty()
     address: string;
 
  

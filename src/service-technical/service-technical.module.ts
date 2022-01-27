@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { User } from '@user/entities/user.entity';
-import { Technical } from '@technical/entities/technical.entity';
+import { User } from '../user/entities/user.entity';
+import { Technical } from '../technical/entities/technical.entity';
 import { ServiceTechnicalService } from './service-technical.service';
 import { ServiceTechnical } from './entities/service-technical.entity';
 

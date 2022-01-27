@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from '@user/entities/user.entity';
-import { Technical } from '@technical/entities/technical.entity';
+import { User } from '../user/entities/user.entity';
+import { Technical } from '../technical/entities/technical.entity';
 import { ServiceTechnicalDto } from './dto/create-service-technical.dto';
 import { ServiceTechnical } from './entities/service-technical.entity';
 

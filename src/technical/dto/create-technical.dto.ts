@@ -4,16 +4,16 @@ export class TechnicalDto {
     @ApiProperty()
     readonly id?: number;
 
+    @ApiProperty()
     @IsString({
         message: 'name debe ser una cadena'
     })
-    @ApiProperty()
     name: string;
     
+    @ApiProperty()
     @IsString({
         message: 'surname debe ser una cadena'
     })
-    @ApiProperty()
     surname: string;
 
  

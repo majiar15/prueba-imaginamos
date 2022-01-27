@@ -2,8 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsString,IsDate, IsNumber, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { User } from "@user/entities/user.entity";
-import { Technical } from "@technical/entities/technical.entity";
+import { User } from "../../user/entities/user.entity";
+import { Technical } from "../../technical/entities/technical.entity";
 export class ServiceTechnicalDto {
     @ApiProperty()
     readonly id?: number;
@@ -29,13 +29,12 @@ export class ServiceTechnicalDto {
     })
     status: string;
 
-
+    @ApiProperty()
     @Type(() => Date)
     @IsDate({
         message: 'start_date debe ser de tipo Date'
-    })
-
-    @ApiProperty()
+    }) 
+    @IsOptional()
     start_date: Date;
 
     @ApiProperty()

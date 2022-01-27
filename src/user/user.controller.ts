@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ApiTags,ApiNotFoundResponse, ApiBadRequestResponse,ApiOkResponse } from '@nestjs/swagger';
 
-import { ServiceTechnicalService } from '@service-technical/service-technical.service';
-import { ServiceTechnicalDto } from '@service-technical/dto/create-service-technical.dto';
+import { ServiceTechnicalService } from '../service-technical/service-technical.service';
+import { ServiceTechnicalDto } from '../service-technical/dto/create-service-technical.dto';
 import { UserService } from './user.service';
 import { UserDTO } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';

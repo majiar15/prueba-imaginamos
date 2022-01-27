@@ -10,11 +10,6 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths": {
-      "@user/*": ["src/user/*"],
-      "@technical/*": ["src/technical/*"],
-      "@service-technical/*": ["src/service-technical/*"]
-    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
