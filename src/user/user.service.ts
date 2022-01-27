@@ -42,6 +42,9 @@ export class UserService {
 
   async update(id: number, body: UpdateUserDto) {
     const User = await this.UsersRepo.findOne(id);
+    if(body.password){
+      body.password = hashSync(body.password,10);
+    }
     this.UsersRepo.merge(User, body);
     return this.UsersRepo.save(User);
   }
