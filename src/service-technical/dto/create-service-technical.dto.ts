@@ -27,6 +27,7 @@ export class ServiceTechnicalDto {
     @IsString({
         message: 'status debe ser una cadena'
     })
+    @IsOptional()
     status: string;
 
     @ApiProperty()

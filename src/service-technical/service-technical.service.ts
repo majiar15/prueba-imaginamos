@@ -39,7 +39,7 @@ export class ServiceTechnicalService {
         newTicket.user = user;
         newTicket.technical= technical;
         newTicket.note = body.note;
-        newTicket.status = body.status;
+        newTicket.status = 'Pendiente';
         newTicket.start_date = body.start_date;
         
         // const newUser = this.serviceRepo.create(body);
