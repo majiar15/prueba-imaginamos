@@ -17,6 +17,7 @@ import { ServiceTechnicalModule } from '@service-technical/service-technical.mod
         username: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
+        url:  process.env.DB_URL,
         entities: ['dist/**/**/*.entity{.ts,.js}'],
         synchronize: false,
         retryDelay: 3000,
